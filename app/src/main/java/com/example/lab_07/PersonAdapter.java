@@ -9,21 +9,21 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class PersonAdapter extends BaseAdapter {
+public class UserAdapter extends BaseAdapter {
     private Context context;
-    private List<Person> personList;
+    private List<User> userList;
     private int idLayout;
 
-    public PersonAdapter(Context context, int idLayout, List<Person> personList) {
+    public UserAdapter(Context context, int idLayout, List<User> userList) {
         this.context = context;
-        this.personList = personList;
+        this.userList = userList;
         this.idLayout = idLayout;
     }
 
     @Override
     public int getCount() {
-        if (personList.size() != 0 && !personList.isEmpty())
-            return personList.size();
+        if (userList.size() != 0 && !userList.isEmpty())
+            return userList.size();
         return 0;
     }
 
@@ -43,11 +43,13 @@ public class PersonAdapter extends BaseAdapter {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(idLayout, viewGroup, false);
         }
 
-        TextView tv = view.findViewById(R.id.lvLayout_itemName);
+        TextView tvName = view.findViewById(R.id.lvLayout_itemName);
+        TextView tvId = view.findViewById(R.id.lvLayout_itemId);
 
-        if (!personList.isEmpty() && personList != null) {
-            Person user = personList.get(i);
-            tv.setText(user.getName());
+        if (!userList.isEmpty() && userList != null) {
+            User user = userList.get(i);
+            tvId.setText(String.valueOf(user.getId()));
+            tvName.setText(user.getName());
         }
 
         return view;
