@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -15,11 +16,13 @@ public class PlaceAdapter extends BaseAdapter {
     private int idLayout;
     private List<Place> placeList;
     private Context context;
-
-    public PlaceAdapter(Context context, int idLayout, List<Place> placeList) {
+    private EditText edt;
+    private int selectedId=-1;
+    public PlaceAdapter(Context context, int idLayout, List<Place> placeList, EditText edt) {
         this.context = context;
         this.placeList = placeList;
         this.idLayout = idLayout;
+        this.edt = edt;
     }
 
     @Override
@@ -50,29 +53,44 @@ public class PlaceAdapter extends BaseAdapter {
 
         if (!placeList.isEmpty() && placeList != null) {
             Place place = placeList.get(i);
-            tvId.setText(String.valueOf(place.getId()));
+//            tvId.setText(String.valueOf(place.getId()));
+//            int index = i + 1;
+//            tvName.setText(index + ". " + place.getName());
             int index = i + 1;
-            tvName.setText(index + ". " + place.getName());
+            tvId.setText(place.getId() + ".");
+            tvName.setText(index+ ". " +place.getName());
 
             btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    EditText edt = view.findViewById(R.id.customLv_edt);
-                    String name = place.getName();
-                    edt.setText(name);
+                    String name = tvName.getText().toString().split("\\d\\.", 0)[1];
+                    edt.setText(name.trim());
+                    edt.setSelection(name.length()-1);
+                 //   int id = Integer.parseInt(tvId.getText().toString());
+                 //   selectedId = id;
+                  //  edt.setSelection(name.length() - 1);
+//                    int id = Integer.parseInt(tvId.getText().toString());
+//                    selectedId = id;
                 }
             });
 
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PlaceDatabaseHandler db = new PlaceDatabaseHandler(context);
-                    int id = place.getId();
-                    db.deletePlace(id);
+                    CustomLV instance = CustomLV.getInstance();
+                    instance.getDb().deletePlace(place.getId());
+                    Toast.makeText(instance, "Xoá thành công", Toast.LENGTH_SHORT).show();
+                    instance.update();
                 }
             });
         }
-
         return view;
+    }
+    public int getSelectedId() {
+        return selectedId;
+    }
+
+    public void setSelectedId(int selectedId) {
+        this.selectedId = selectedId;
     }
 }

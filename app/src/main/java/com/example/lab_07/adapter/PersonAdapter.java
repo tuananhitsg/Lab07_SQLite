@@ -1,29 +1,33 @@
 package com.example.lab_07;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.List;
 
-public class UserAdapter extends BaseAdapter {
+public class PersonAdapter extends BaseAdapter {
     private Context context;
-    private List<User> userList;
+    private List<Person> personList;
     private int idLayout;
-
-    public UserAdapter(Context context, int idLayout, List<User> userList) {
+    private int selectedPosition = -1;
+    public PersonAdapter(Context context, int idLayout, List<Person> userList) {
         this.context = context;
-        this.userList = userList;
+        this.personList = userList;
         this.idLayout = idLayout;
     }
 
     @Override
     public int getCount() {
-        if (userList.size() != 0 && !userList.isEmpty())
-            return userList.size();
+        if (personList.size() != 0 && !personList.isEmpty())
+            return personList.size();
         return 0;
     }
 
@@ -44,14 +48,14 @@ public class UserAdapter extends BaseAdapter {
         }
 
         TextView tvName = view.findViewById(R.id.lvLayout_itemName);
-        TextView tvId = view.findViewById(R.id.lvLayout_itemId);
+        Person person = personList.get(i);
+        if (!personList.isEmpty() && personList != null) {
 
-        if (!userList.isEmpty() && userList != null) {
-            User user = userList.get(i);
-            tvId.setText(String.valueOf(user.getId()));
-            tvName.setText(user.getName());
+            tvName.setText(person.getName());
         }
+
 
         return view;
     }
+
 }

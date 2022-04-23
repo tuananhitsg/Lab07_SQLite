@@ -1,6 +1,8 @@
 package com.example.lab_07;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
     private int id;
     private String name;
 
@@ -11,7 +13,9 @@ public class Person {
 
     public Person() {
     }
-
+    public Person(int id){
+        this.id=id;
+    }
     public Person(String name) {
         this.name = name;
     }
